@@ -16,9 +16,8 @@ function loadComponent(id, file) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const base = window.location.pathname.includes("/pages/") ? "../" : "";
-  loadComponent("site-header", base + "components/navbar.html");
-  loadComponent("footer-container", base + "components/footer.html");
+  loadComponent("site-header", "../components/navbar.html");
+  loadComponent("footer-container", "../components/footer.html");
 
   const header = document.querySelector(".site-header");
   if (header) {
