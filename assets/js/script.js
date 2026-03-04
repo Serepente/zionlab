@@ -16,8 +16,8 @@ function loadComponent(id, file) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  loadComponent("site-header", "/components/navbar.html");
-  loadComponent("footer-container", "/components/footer.html");
+  loadComponent("site-header", "components/navbar.html");
+  loadComponent("footer-container", "components/footer.html");
 
   const header = document.querySelector(".site-header");
   if (header) {
