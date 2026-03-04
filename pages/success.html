@@ -1,0 +1,750 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Application Received</title>
+    <link rel="stylesheet" href="../assets/css/prestyle.css" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+
+    <style>
+         :root {
+            --bg: #ffffff;
+            --text: #111111;
+            --mutedText: #5b5b5b;
+            --primary: #d91a5f;
+            --primaryWeak: rgba(217, 26, 95, 0.1);
+            --secondary: #1f9d8a;
+            --secondaryWeak: rgba(31, 157, 138, 0.12);
+            --border: #e7e7e7;
+            --mutedBg: #f6f3ed;
+            /* soft input-like bg */
+            --cardShadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+            --radius: 16px;
+            --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+        }
+        
+        .wrap {
+            padding: 64px 16px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 760px;
+            margin: 0 auto;
+        }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .reveal.in {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            transition-delay: var(--delay, 0s);
+        }
+        
+        .hero {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+        
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 84px;
+            height: 84px;
+            border-radius: 999px;
+            background: var(--secondaryWeak);
+            margin-bottom: 18px;
+            transform: scale(0);
+            animation: popIn 0.55s cubic-bezier(0.2, 1, 0.2, 1) forwards;
+        }
+        
+        @keyframes popIn {
+            to {
+                transform: scale(1);
+            }
+        }
+        
+        .badge svg {
+            width: 44px;
+            height: 44px;
+            color: var(--secondary);
+        }
+        
+        .hero h1 {
+            margin: 0 0 12px;
+            font-weight: 900;
+            letter-spacing: -0.4px;
+            font-size: clamp(28px, 4vw, 40px);
+        }
+        
+        .hero p {
+            margin: 0 auto;
+            max-width: 520px;
+            color: var(--mutedText);
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 20px;
+            font-weight: 900;
+            margin: 0 0 20px;
+        }
+        
+        .timeline {
+            margin-bottom: 40px;
+        }
+        
+        .timeline-list {
+            display: grid;
+            gap: 0;
+        }
+        
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 44px 1fr;
+            gap: 14px;
+            align-items: start;
+        }
+        
+        .timeline-rail {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .dot {
+            width: 40px;
+            height: 40px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+        }
+        
+        .dot.primary {
+            background: var(--primaryWeak);
+            color: var(--primary);
+        }
+        
+        .dot.secondary {
+            background: var(--secondaryWeak);
+            color: var(--secondary);
+        }
+        
+        .dot svg {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .line {
+            width: 2px;
+            flex: 1;
+            min-height: 22px;
+            background: var(--border);
+            margin-top: 6px;
+        }
+        
+        .timeline-item h4 {
+            margin: 0 0 6px;
+            font-size: 13px;
+            font-weight: 900;
+            letter-spacing: 0.2px;
+        }
+        
+        .timeline-item p {
+            margin: 0 0 20px;
+            color: var(--mutedText);
+            font-size: 14px;
+            line-height: 1.55;
+        }
+        
+        .callout {
+            background: var(--mutedBg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px;
+            margin-bottom: 40px;
+        }
+        
+        .callout-row {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        
+        .callout svg {
+            width: 22px;
+            height: 22px;
+            color: var(--primary);
+            margin-top: 2px;
+        }
+        
+        .callout h3 {
+            margin: 0 0 6px;
+            font-size: 16px;
+            font-weight: 900;
+        }
+        
+        .callout p {
+            margin: 0;
+            color: var(--mutedText);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .callout strong {
+            color: var(--text);
+        }
+        
+        .card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--cardShadow);
+            padding: 18px;
+            position: relative;
+            margin-bottom: 40px;
+        }
+        
+        .quote {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 34px;
+            height: 34px;
+            color: rgba(217, 26, 95, 0.15);
+        }
+        
+        .stars {
+            display: inline-flex;
+            gap: 4px;
+            margin-bottom: 10px;
+        }
+        
+        .stars svg {
+            width: 16px;
+            height: 16px;
+            color: var(--primary);
+            fill: var(--primary);
+        }
+        
+        .card blockquote {
+            margin: 0 0 14px;
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--text);
+            font-style: italic;
+        }
+        
+        .person {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 999px;
+            background: var(--primaryWeak);
+            display: grid;
+            place-items: center;
+            font-weight: 900;
+            color: var(--primary);
+            flex: 0 0 auto;
+        }
+        
+        .person .name {
+            margin: 0;
+            font-weight: 900;
+            font-size: 14px;
+        }
+        
+        .person .meta {
+            margin: 0;
+            color: var(--mutedText);
+            font-size: 12px;
+        }
+        
+        .video {
+            background: rgba(217, 26, 95, 0.05);
+            border: 1px solid rgba(217, 26, 95, 0.2);
+            border-radius: var(--radius);
+            padding: 18px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .video h3 {
+            margin: 0 0 10px;
+            font-weight: 900;
+            font-size: 16px;
+        }
+        
+        .video-box {
+            aspect-ratio: 16 / 9;
+            background: rgba(17, 17, 17, 0.04);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .video p {
+            margin: 0;
+            color: var(--mutedText);
+            font-size: 12px;
+        }
+        
+        .cta {
+            text-align: center;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border-radius: 14px;
+            padding: 14px 22px;
+            border: 1px solid transparent;
+            font-weight: 900;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-decoration: none;
+            user-select: none;
+        }
+        
+        .btn-primary {
+            color: #fff;
+            background: linear-gradient( 90deg, var(--primary), rgba(217, 26, 95, 0.65));
+            box-shadow: 0 10px 22px rgba(217, 26, 95, 0.18);
+        }
+        
+        .btn-primary:hover {
+            filter: brightness(1.03);
+        }
+        
+        .btn-ghost {
+            margin-top: 12px;
+            background: transparent;
+            border-color: var(--border);
+            color: var(--mutedText);
+            text-transform: none;
+            letter-spacing: 0;
+            font-weight: 800;
+        }
+        
+        .btn-ghost:hover {
+            background: rgba(0, 0, 0, 0.03);
+        }
+        
+        .cta small {
+            display: block;
+            margin-top: 10px;
+            color: var(--mutedText);
+            font-size: 12px;
+        }
+        
+        .pulse {
+            position: relative;
+        }
+        
+        .pulse::after {
+            content: "";
+            position: absolute;
+            inset: -3px;
+            border-radius: 16px;
+            border: 1px solid rgba(217, 26, 95, 0.35);
+            opacity: 0;
+            animation: pulse 1.8s ease-out infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(0.98);
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.55;
+            }
+            100% {
+                transform: scale(1.07);
+                opacity: 0;
+            }
+        }
+        
+        @media (max-width: 520px) {
+            .wrap {
+                padding: 48px 14px;
+            }
+            .timeline-item {
+                grid-template-columns: 40px 1fr;
+            }
+            .dot {
+                width: 36px;
+                height: 36px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="preapply-header">
+        <div class="brand-group">
+            <div class="logo-placeholder">
+                <a href="/index.html" class="logo-link">
+                    <img src="../assets/images/logo.png" alt="ZionLab Logo" />
+                </a>
+            </div>
+
+            <span class="header-tagline">
+          Empowering Tech Careers, Elevating Digital Solutions.
+        </span>
+        </div>
+    </header>
+    <main class="wrap">
+        <div class="container">
+            <section class="hero">
+                <div class="badge" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+              <path
+                d="M22 11.08V12a10 10 0 1 1-5.93-9.14"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <path
+                d="M22 4 12 14.01l-3-3"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+                </div>
+
+                <h1 class="reveal" style="--delay: 0.2s">
+                    Your Application Has Been Received 🎉
+                </h1>
+                <p class="reveal" style="--delay: 0.3s">
+                    You've taken a bold step. We're excited to learn more about you and your goals.
+                </p>
+            </section>
+            <section class="timeline reveal" style="--delay: 0.35s">
+                <h2 class="section-title">Here's What Happens Next</h2>
+
+                <div class="timeline-list">
+                    <div class="timeline-item">
+                        <div class="timeline-rail">
+                            <div class="dot primary" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5L14.5 2Z"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M14 2v7h7"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M10 13h4"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M10 17h2"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                            </div>
+                            <div class="line"></div>
+                        </div>
+                        <div>
+                            <h4>Step 1 — Application Review</h4>
+                            <p>
+                                Our team carefully reviews every application within 48 hours.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-rail">
+                            <div class="dot secondary" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5A8.5 8.5 0 0 1 4 16l-2 2 1-4A8.5 8.5 0 0 1 12.5 3 8.5 8.5 0 0 1 21 11.5Z"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                            </div>
+                            <div class="line"></div>
+                        </div>
+                        <div>
+                            <h4>Step 2 — Personal Outreach</h4>
+                            <p>
+                                If it's a strong fit, you'll receive a personal email or call from us.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-rail">
+                            <div class="dot primary" aria-hidden="true">
+                                <!-- CalendarCheck -->
+                                <svg viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M8 2v4M16 2v4"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M3 9h18"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M5 5h14a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="m9 15 2 2 4-4"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                            </div>
+                            <div class="line"></div>
+                        </div>
+                        <div>
+                            <h4>Step 3 — Free Strategy Call</h4>
+                            <p>
+                                We'll schedule a free 30-minute 1-on-1 call to align on your goals and roadmap.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-rail">
+                            <div class="dot secondary" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M4.5 16.5c-1.5 1.5-2 5-2 5s3.5-.5 5-2l2-2-3-3-2 2Z"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M9 15 4 20"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M14 10l-3-3s1-4 6-6c0 0 1 1 1 1-2 5-6 6-6 6Z"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M14 10s4-1 6-6c0 0 1 1 1 1-2 5-6 6-6 6l-3-3Z"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M12 12l-2 2"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                            </div>
+                        </div>
+                        <div>
+                            <h4>Step 4 — Start Your Journey</h4>
+                            <p>
+                                Once accepted, you'll get onboarded and begin your transformation immediately.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="callout reveal" style="--delay: 0.4s">
+                <div class="callout-row">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+              <path
+                d="M12 6v6l4 2"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+
+                    <div>
+                        <h3>How Acceptance Works</h3>
+                        <p>
+                            We accept a
+                            <strong>limited number of mentees per cohort</strong> to ensure personalized attention. Applications are reviewed on commitment level, goals alignment, and readiness — not prior experience. You'll hear back within <strong>48 hours</strong>.
+                        </p>
+                    </div>
+                </div>
+            </section>
+            <section class="card reveal" style="--delay: 0.45s">
+                <svg class="quote" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path
+              d="M10 11H6a4 4 0 0 0-4 4v3h8v-7Zm12 0h-4a4 4 0 0 0-4 4v3h8v-7Z"
+              fill="currentColor"
+            />
+          </svg>
+
+                <div class="stars" aria-label="5 star rating">
+                    <svg viewBox="0 0 24 24">
+              <path
+                d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27Z"
+              />
+            </svg>
+                    <svg viewBox="0 0 24 24">
+              <path
+                d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27Z"
+              />
+            </svg>
+                    <svg viewBox="0 0 24 24">
+              <path
+                d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27Z"
+              />
+            </svg>
+                    <svg viewBox="0 0 24 24">
+              <path
+                d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27Z"
+              />
+            </svg>
+                    <svg viewBox="0 0 24 24">
+              <path
+                d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27Z"
+              />
+            </svg>
+                </div>
+
+                <blockquote>
+                    "Before ZionLab, I was stuck in tutorial hell for over a year. Within 3 months of mentorship, I built a real portfolio, nailed my interviews, and landed a junior developer role paying $65K. The structured approach and personal guidance made all the difference."
+                </blockquote>
+
+                <div class="person">
+                    <div class="avatar" aria-hidden="true">AK</div>
+                    <div>
+                        <p class="name">Alex K.</p>
+                        <p class="meta">Junior Developer — Cohort 2024</p>
+                    </div>
+                </div>
+            </section>
+            <section class="video reveal" style="--delay: 0.5s">
+                <h3>🎬 A Quick Message From Your Mentor</h3>
+                <div class="video-box" role="img" aria-label="Welcome video placeholder">
+                    <p style="margin: 0; color: var(--mutedText); font-size: 14px">
+                        Welcome video coming soon
+                    </p>
+                </div>
+                <p>Get to know your mentor before the strategy call.</p>
+            </section>
+            <section class="cta reveal" style="--delay: 0.55s">
+                <a class="btn btn-primary pulse" href="https://calendly.com" target="_blank" rel="noopener noreferrer">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" style="width: 18px; height: 18px">
+              <path
+                d="M8 2v4M16 2v4"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <path
+                d="M3 9h18"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <path
+                d="M5 5h14a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linejoin="round"
+              />
+              <path
+                d="m9 15 2 2 4-4"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg> Book Your Strategy Call Now
+                </a>
+
+                <small>Pre-qualified applicants can skip the wait and book
+            directly.</small
+          >
+
+          <div>
+            <button class="btn btn-ghost" id="backHomeBtn" type="button">
+              Back to Home
+            </button>
+          </div>
+        </section>
+      </div>
+    </main>
+    <footer class="site-footer" id="footer-container"></footer>
+
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".reveal").forEach((el) => {
+          requestAnimationFrame(() => el.classList.add("in"));
+        });
+        const backBtn = document.getElementById("backHomeBtn");
+        backBtn?.addEventListener("click", () => {
+          window.location.href = "/index.html";
+        });
+      });
+    </script>
+  </body>
+</html>

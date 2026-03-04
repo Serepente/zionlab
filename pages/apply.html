@@ -1,0 +1,757 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Application Form</title>
+    <link rel="stylesheet" href="../assets/css/style.css" />
+
+    <link rel="stylesheet" href="../assets/css/prestyle.css" />
+
+    <style>
+         :root {
+            --bg: #ffffff;
+            --card: #ffffff;
+            --muted: #f5f5f5;
+            --border: #e5e5e5;
+            --text: #111111;
+            --sub: #555555;
+            --primary: #d91a5f;
+            --primary-weak: rgba(217, 26, 95, 0.08);
+            --danger: #ef4444;
+            --shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            --radius: 16px;
+            --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        html,
+        body {
+            height: 100%;
+        }
+        
+        body {
+            margin: 0;
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .wrap {
+            padding: 64px 16px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        main.wrap {
+            flex: 1;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 560px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 18px;
+        }
+        
+        .step-pill {
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-size: 12px;
+            color: var(--primary);
+            margin: 0 0 10px;
+        }
+        
+        .title {
+            margin: 0;
+            font-weight: 900;
+            letter-spacing: 0.2px;
+            font-size: 28px;
+        }
+        
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 22px;
+        }
+        
+        .progress {
+            height: 10px;
+            background: #e8e4dc;
+            border-radius: 999px;
+            overflow: hidden;
+            margin: 18px 0 22px;
+        }
+        
+        .progress>div {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient( 90deg, var(--primary), rgba(124, 58, 237, 0.55));
+            transition: width 0.25s ease;
+        }
+        
+        .step {
+            display: none;
+            opacity: 0;
+            transform: translateX(30px);
+        }
+        
+        .step.active {
+            display: block;
+            animation: stepIn 0.25s ease forwards;
+        }
+        
+        .step.exiting {
+            animation: stepOut 0.2s ease forwards;
+        }
+        
+        @keyframes stepIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes stepOut {
+            to {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+        }
+        
+        .field {
+            margin: 14px 0;
+        }
+        
+        .label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: var(--text);
+        }
+        
+        .input,
+        .textarea,
+        .select {
+            width: 100%;
+            padding: 12px 12px;
+            border-radius: 12px;
+            border: 1px solid #d6d6d6;
+            background: #f6f3ed;
+            color: #111;
+            outline: none;
+        }
+        
+        .input::placeholder,
+        .textarea::placeholder {
+            color: rgba(255, 255, 255, 0.45);
+        }
+        
+        .textarea {
+            resize: none;
+            min-height: 92px;
+            line-height: 1.35;
+        }
+        
+        .input:focus,
+        .textarea:focus,
+        .select:focus {
+            border-color: rgba(124, 58, 237, 0.55);
+            box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.14);
+        }
+        
+        .radio-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        
+        .radio-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .radio-card {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 12px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: #ffffff;
+            cursor: pointer;
+            transition: 0.15s ease;
+        }
+        
+        .radio-card:active {
+            transform: scale(0.99);
+        }
+        
+        .radio-card input {
+            accent-color: var(--primary);
+        }
+        
+        .radio-card .opt {
+            font-weight: 700;
+            font-size: 14px;
+        }
+        
+        .radio-card.selected {
+            border-color: rgba(124, 58, 237, 0.65);
+            background: var(--primary-weak);
+        }
+        
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 18px;
+            gap: 12px;
+        }
+        
+        .btn {
+            border: 1px solid transparent;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-weight: 800;
+            letter-spacing: 0.4px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: opacity 0.15s ease, transform 0.05s ease, background 0.15s ease, border-color 0.15s ease;
+            color: var(--text);
+        }
+        
+        .btn:active {
+            transform: scale(0.99);
+        }
+        
+        .btn:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+        
+        .btn-ghost {
+            background: transparent;
+            border-color: var(--border);
+        }
+        
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.04);
+        }
+        
+        .btn-primary {
+            background: linear-gradient( 90deg, var(--primary), rgba(124, 58, 237, 0.72));
+            border-color: rgba(124, 58, 237, 0.35);
+            padding: 14px 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn-primary:hover {
+            filter: brightness(1.03);
+        }
+        
+        .pulse {
+            position: relative;
+        }
+        
+        .pulse::after {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            border-radius: 14px;
+            border: 1px solid rgba(124, 58, 237, 0.35);
+            opacity: 0;
+            animation: pulse 1.8s ease-out infinite;
+            pointer-events: none;
+        }
+        
+        .site-footer {
+            margin-top: auto;
+            width: 100%;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(0.98);
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: scale(1.08);
+                opacity: 0;
+            }
+        }
+        
+        .hint {
+            margin-top: 6px;
+            color: var(--sub);
+            font-size: 13px;
+        }
+        
+        @media (max-width: 520px) {
+            .radio-grid {
+                grid-template-columns: 1fr;
+            }
+            .title {
+                font-size: 24px;
+            }
+            .card {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="preapply-header">
+        <div class="brand-group">
+            <div class="logo-placeholder">
+                <a href="/index.html" class="logo-link">
+                    <img src="../assets/images/logo.png" alt="ZionLab Logo" />
+                </a>
+            </div>
+
+            <span class="header-tagline">
+          Empowering Tech Careers, Elevating Digital Solutions.
+        </span>
+        </div>
+    </header>
+    <main class="wrap">
+        <div class="container">
+            <div class="header">
+                <p class="step-pill" id="stepPill">Step 1 of 4</p>
+                <h2 class="title" id="stepTitle">About You</h2>
+            </div>
+
+            <div class="card">
+                <div class="progress" aria-label="Progress">
+                    <div id="progressBar"></div>
+                </div>
+
+                <form id="appForm" novalidate>
+                    <section class="step active" data-step="0">
+                        <div class="field">
+                            <label class="label" for="name">Full Name</label>
+                            <input class="input" id="name" name="name" placeholder="e.g. John Doe" autocomplete="name" />
+                        </div>
+
+                        <div class="field">
+                            <label class="label" for="email">Email Address</label>
+                            <input class="input" id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" />
+                        </div>
+
+                        <div class="field">
+                            <label class="label" for="currentRole">Current Role / Stage</label
+                >
+                <select class="select" id="currentRole" name="currentRole">
+                  <option value="" selected disabled>
+                    Select your current stage
+                  </option>
+                  <option value="student">Student</option>
+                  <option value="employed-non-tech">Employed (Non-Tech)</option>
+                  <option value="employed-tech">Employed (Tech)</option>
+                  <option value="freelancer">Freelancer</option>
+                  <option value="unemployed">Currently Unemployed</option>
+                  <option value="career-switcher">Career Switcher</option>
+                </select>
+              </div>
+            </section>
+            <section class="step" data-step="1">
+              <div class="field">
+                <label class="label" for="biggestChallenge">
+                  What's your biggest challenge right now?
+                </label>
+                            <textarea class="textarea" id="biggestChallenge" name="biggestChallenge" rows="3" placeholder="e.g. I don't know where to start, or I keep getting stuck on projects..."></textarea>
+                        </div>
+
+                        <div class="field">
+                            <label class="label" for="holdingBack">
+                  What's holding you back from reaching your goals?
+                </label>
+                            <textarea class="textarea" id="holdingBack" name="holdingBack" rows="3" placeholder="e.g. Lack of structure, no accountability, overwhelmed by options..."></textarea>
+                        </div>
+                    </section>
+                    <section class="step" data-step="2">
+                        <div class="field">
+                            <label class="label" for="goalThreeToSix">
+                  Where do you want to be in 3–6 months?
+                </label>
+                            <textarea class="textarea" id="goalThreeToSix" name="goalThreeToSix" rows="3" placeholder="e.g. Land a junior developer role, launch my own SaaS product..."></textarea>
+                        </div>
+
+                        <div class="field">
+                            <label class="label" for="whyNow">Why is now the right time for you?</label
+                >
+                <textarea
+                  class="textarea"
+                  id="whyNow"
+                  name="whyNow"
+                  rows="3"
+                  placeholder="e.g. I just finished a bootcamp and need guidance, I'm tired of tutorial hell..."
+                ></textarea>
+              </div>
+            </section>
+            <section class="step" data-step="3">
+              <div class="field">
+                <span class="label"
+                  >How many hours per week can you commit?</span
+                >
+                <div class="radio-grid" data-radio-group="timeAvailability">
+                  <label class="radio-card">
+                    <input
+                      type="radio"
+                      name="timeAvailability"
+                      value="5–8 hours"
+                    />
+                    <span class="opt">5–8 hours</span>
+                  </label>
+                            <label class="radio-card">
+                    <input
+                      type="radio"
+                      name="timeAvailability"
+                      value="8–12 hours"
+                    />
+                    <span class="opt">8–12 hours</span>
+                  </label>
+                            <label class="radio-card">
+                    <input
+                      type="radio"
+                      name="timeAvailability"
+                      value="12–20 hours"
+                    />
+                    <span class="opt">12–20 hours</span>
+                  </label>
+                            <label class="radio-card">
+                    <input
+                      type="radio"
+                      name="timeAvailability"
+                      value="20+ hours"
+                    />
+                    <span class="opt">20+ hours</span>
+                  </label>
+                        </div>
+            </div>
+
+            <div class="field">
+                <span class="label">Are you prepared to invest financially in your growth?</span
+                >
+                <div class="radio-stack" data-radio-group="budgetConfirm">
+                  <label class="radio-card">
+                    <input
+                      type="radio"
+                      name="budgetConfirm"
+                      value="Yes, I'm ready to invest"
+                    />
+                    <span class="opt">Yes, I'm ready to invest</span>
+                </label>
+                <label class="radio-card">
+                    <input
+                      type="radio"
+                      name="budgetConfirm"
+                      value="I need to know the pricing first"
+                    />
+                    <span class="opt">I need to know the pricing first</span>
+                  </label>
+                <label class="radio-card">
+                    <input
+                      type="radio"
+                      name="budgetConfirm"
+                      value="Not sure yet"
+                    />
+                    <span class="opt">Not sure yet</span>
+                  </label>
+            </div>
+        </div>
+
+        <div class="field">
+            <span class="label">Are you ready to take action and commit to the process?</span
+                >
+                <div class="radio-stack" data-radio-group="readyToAct">
+                  <label class="radio-card">
+                    <input
+                      type="radio"
+                      name="readyToAct"
+                      value="Absolutely, let's go!"
+                    />
+                    <span class="opt">Absolutely, let's go!</span>
+            </label>
+            <label class="radio-card">
+                    <input
+                      type="radio"
+                      name="readyToAct"
+                      value="I think so, but I have questions"
+                    />
+                    <span class="opt">I think so, but I have questions</span>
+                  </label>
+            <label class="radio-card">
+                    <input
+                      type="radio"
+                      name="readyToAct"
+                      value="I need more time to decide"
+                    />
+                    <span class="opt">I need more time to decide</span>
+                  </label>
+        </div>
+        </div>
+        </section>
+        <div class="nav">
+            <button type="button" class="btn btn-ghost" id="backBtn">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M15 18l-6-6 6-6"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                Back
+              </button>
+
+            <button type="button" class="btn btn-primary pulse" id="nextBtn" disabled>
+                <span id="nextLabel">Next</span>
+                <svg
+                  id="nextIcon"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M9 18l6-6-6-6"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+        </div>
+        </form>
+        </div>
+        </div>
+    </main>
+    <footer class="site-footer" id="footer-container"></footer>
+    <script>
+        const STEPS = [
+            "About You",
+            "Current Situation",
+            "Your Goals",
+            "Commitment",
+        ];
+
+        const formState = {
+            name: "",
+            email: "",
+            currentRole: "",
+            biggestChallenge: "",
+            holdingBack: "",
+            goalThreeToSix: "",
+            whyNow: "",
+            timeAvailability: "",
+            budgetConfirm: "",
+            readyToAct: "",
+        };
+
+        const stepPill = document.getElementById("stepPill");
+        const stepTitle = document.getElementById("stepTitle");
+        const progressBar = document.getElementById("progressBar");
+
+        const formEl = document.getElementById("appForm");
+        const stepsEls = Array.from(document.querySelectorAll(".step"));
+
+        const backBtn = document.getElementById("backBtn");
+        const nextBtn = document.getElementById("nextBtn");
+        const nextLabel = document.getElementById("nextLabel");
+        const nextIcon = document.getElementById("nextIcon");
+
+        let step = 0;
+        let isTransitioning = false;
+
+        function updateHeader() {
+            stepPill.textContent = `Step ${step + 1} of ${STEPS.length}`;
+            stepTitle.textContent = STEPS[step];
+
+            const progress = ((step + 1) / STEPS.length) * 100;
+            progressBar.style.width = `${progress}%`;
+
+            backBtn.disabled = step === 0;
+
+            const isLast = step === STEPS.length - 1;
+            nextLabel.textContent = isLast ? "Submit My Application" : "Next";
+            nextIcon.style.display = isLast ? "none" : "inline-block";
+        }
+
+        nextBtn.addEventListener("click", () => {
+            if (!canNext()) return;
+
+            if (step < STEPS.length - 1) {
+                showStep(step + 1);
+            } else {
+                window.location.href = "success.html";
+            }
+        });
+
+        function getValue(name) {
+            const el = formEl.elements[name];
+            if (!el) return "";
+
+            if (
+                typeof RadioNodeList !== "undefined" &&
+                el instanceof RadioNodeList
+            ) {
+                return el.value || "";
+            }
+            return el.value || "";
+        }
+
+        function syncStateFromDOM() {
+            for (const key of Object.keys(formState)) {
+                const val = getValue(key);
+                formState[key] = typeof val === "string" ? val.trim() : val;
+            }
+        }
+
+        function canNext() {
+            syncStateFromDOM();
+            switch (step) {
+                case 0:
+                    return formState.name && formState.email && formState.currentRole;
+                case 1:
+                    return formState.biggestChallenge && formState.holdingBack;
+                case 2:
+                    return formState.goalThreeToSix && formState.whyNow;
+                case 3:
+                    return (
+                        formState.timeAvailability &&
+                        formState.budgetConfirm &&
+                        formState.readyToAct
+                    );
+                default:
+                    return false;
+            }
+        }
+
+        function setNextEnabled() {
+            nextBtn.disabled = !canNext();
+        }
+
+        function markSelectedRadioCards() {
+            document.querySelectorAll("[data-radio-group]").forEach((group) => {
+                const name = group.getAttribute("data-radio-group");
+                const selected = getValue(name);
+
+                group.querySelectorAll(".radio-card").forEach((label) => {
+                    const input = label.querySelector('input[type="radio"]');
+                    if (!input) return;
+                    label.classList.toggle("selected", input.value === selected);
+                });
+            });
+        }
+
+        function showStep(nextStep) {
+            if (
+                isTransitioning ||
+                nextStep === step ||
+                nextStep < 0 ||
+                nextStep >= STEPS.length
+            )
+                return;
+            isTransitioning = true;
+
+            const currentEl = stepsEls[step];
+            const nextEl = stepsEls[nextStep];
+
+            currentEl.classList.add("exiting");
+            setTimeout(() => {
+                currentEl.classList.remove("active", "exiting");
+                nextEl.classList.add("active");
+                step = nextStep;
+
+                updateHeader();
+                markSelectedRadioCards();
+                setNextEnabled();
+
+                isTransitioning = false;
+            }, 200);
+        }
+
+        // function onComplete() {
+        //     syncStateFromDOM();
+        //     alert(
+        //         "Application submitted!\n\n" + JSON.stringify(formState, null, 2),
+        //     );
+
+        //     formEl.reset();
+        //     Object.keys(formState).forEach((k) => (formState[k] = ""));
+
+        //     stepsEls.forEach((el) => el.classList.remove("active", "exiting"));
+        //     step = 0;
+        //     stepsEls[0].classList.add("active");
+
+        //     updateHeader();
+        //     markSelectedRadioCards();
+        //     setNextEnabled();
+        // }
+
+        backBtn.addEventListener("click", () => showStep(step - 1));
+
+        nextBtn.addEventListener("click", () => {
+            if (!canNext()) return;
+            if (step < STEPS.length - 1) showStep(step + 1);
+            else onComplete();
+        });
+
+        formEl.addEventListener("input", () => {
+            markSelectedRadioCards();
+            setNextEnabled();
+        });
+        formEl.addEventListener("change", () => {
+            markSelectedRadioCards();
+            setNextEnabled();
+        });
+
+        document.querySelectorAll(".radio-card").forEach((label) => {
+            label.addEventListener("click", () => {
+                const input = label.querySelector('input[type="radio"]');
+                if (input) input.checked = true;
+                markSelectedRadioCards();
+                setNextEnabled();
+            });
+        });
+
+        updateHeader();
+        markSelectedRadioCards();
+        setNextEnabled();
+    </script>
+
+    <script src="../assets/js/script.js"></script>
+</body>
+
+</html>
